@@ -2,6 +2,7 @@ package monokai.securitysystem.rest;
 
 import lombok.Data;
 import monokai.securitysystem.domain.User;
+import monokai.securitysystem.repository.UserRepository;
 import monokai.securitysystem.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,18 @@ public class UserAdminController {
 
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
 
-    public UserAdminController(UserService userService) {
-this.userService = userService;
-}
+    public UserAdminController(UserService userService, UserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(userRepository.findAll());
+    }
 
 
     @PostMapping
