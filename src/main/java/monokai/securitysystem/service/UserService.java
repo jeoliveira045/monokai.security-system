@@ -11,12 +11,10 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -24,7 +22,7 @@ public class UserService {
         User u = new User();
         u.setUsername(username);
         u.setEmail(email);
-        u.setPasswordHash(passwordEncoder.encode(rawPassword));
+        u.setPasswordHash(rawPassword);
         return userRepository.save(u);
     }
 
@@ -34,7 +32,7 @@ public class UserService {
     }
 
 
-    public boolean verifyPassword(User user, String rawPassword) {
-    return passwordEncoder.matches(rawPassword, user.getPasswordHash());
-    }
+//    public boolean verifyPassword(User user, String rawPassword) {
+//        return passwordEncoder.matches(rawPassword, user.getPasswordHash());
+//    }
 }
