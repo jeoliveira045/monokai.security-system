@@ -1,7 +1,7 @@
 package monokai.securitysystem.rest;
 
 import lombok.Data;
-import monokai.securitysystem.domain.User;
+import monokai.securitysystem.domain.UserEntity;
 import monokai.securitysystem.repository.UserRepository;
 import monokai.securitysystem.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ public class UserAdminController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateUserRequest req) {
-        User u = userService.createUser(req.getUsername(), req.getPassword(), req.getEmail());
+        UserEntity u = userService.createUser(req.getUsername(), req.getPassword(), req.getEmail());
         return ResponseEntity.created(URI.create("/api/users/" + u.getId())).build();
     }
 
