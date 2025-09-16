@@ -1,19 +1,29 @@
 package monokai.securitysystem.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import monokai.securitysystem.domain.UserEntity;
 import monokai.securitysystem.repository.UserRepository;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userEntityRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(UserRepository userEntityRepository, PasswordEncoder passwordEncoder) {
+        this.userEntityRepository = userEntityRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -21,13 +31,27 @@ public class UserService {
         UserEntity u = new UserEntity();
         u.setUsername(username);
         u.setEmail(email);
-        u.setPasswordHash(rawPassword);
-        return userRepository.save(u);
+        u.setPasswordHash(passwordEncoder.encode(rawPassword));
+        return userEntityRepository.save(u);
     }
 
 
     public Optional<UserEntity> findByUsername(String username) {
-    return userRepository.findByUsername(username);
+        return userEntityRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = userEntityRepository.findByUsername(username);
+        if(user.isEmpty()){
+            throw new EntityNotFoundException("Usuário não encontrado!");
+        }
+
+        return new User(
+                user.get().getUsername(),
+                user.get().getPasswordHash(),
+                List.of()
+        );
     }
 
 
