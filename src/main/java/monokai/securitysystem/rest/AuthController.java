@@ -1,7 +1,8 @@
 package monokai.securitysystem.rest;
 
-import lombok.Data;
 import monokai.securitysystem.components.JwtTokenProvider;
+import monokai.securitysystem.domain.dto.JwtResponse;
+import monokai.securitysystem.domain.dto.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,16 +40,3 @@ public class AuthController {
     }
 }
 
-@Data
-class LoginRequest {
-    private String username;
-    private String password;
-    // getters e setters
-}
-
-@Data
-class JwtResponse {
-    private String token;
-    public JwtResponse(String token) { this.token = token; }
-    public String getToken() { return token; }
-}

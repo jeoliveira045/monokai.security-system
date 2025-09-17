@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final String JWT_SECRET = "segredoSuperSecreto123"; // depois vai para config segura
+    private final String JWT_SECRET = "segredoSuperSecreto123333333333333333333333333333333"; // depois vai para config segura
     private final long JWT_EXPIRATION = 86400000; // 1 dia
 
     public String generateToken(Authentication authentication) {
@@ -24,7 +24,7 @@ public class JwtTokenProvider {
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
-                .signWith(Keys.hmacShaKeyFor(JWT_SECRET.getBytes()), Jwts.SIG.HS512) // API nova
+                .signWith(Keys.hmacShaKeyFor(JWT_SECRET.getBytes()), Jwts.SIG.HS256) // API nova
                 .compact();
     }
 
