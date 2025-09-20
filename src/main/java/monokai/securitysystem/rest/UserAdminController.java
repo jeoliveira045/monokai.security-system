@@ -1,10 +1,13 @@
 package monokai.securitysystem.rest;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.Data;
 import monokai.securitysystem.domain.UserEntity;
 import monokai.securitysystem.repository.UserRepository;
 import monokai.securitysystem.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,6 +29,7 @@ public class UserAdminController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findAll(){
         return ResponseEntity.ok(userRepository.findAll());
     }

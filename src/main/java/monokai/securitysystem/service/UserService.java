@@ -2,7 +2,9 @@ package monokai.securitysystem.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import monokai.securitysystem.domain.UserEntity;
+import monokai.securitysystem.domain.dto.CustomUserDetails;
 import monokai.securitysystem.repository.UserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,15 +45,12 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userEntityRepository.findByUsername(username);
+
         if(user.isEmpty()){
             throw new EntityNotFoundException("Usuário não encontrado!");
         }
 
-        return new User(
-                user.get().getUsername(),
-                user.get().getPasswordHash(),
-                List.of()
-        );
+        return new CustomUserDetails(user.get());
     }
 
 
