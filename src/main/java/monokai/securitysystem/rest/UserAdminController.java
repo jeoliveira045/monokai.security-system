@@ -4,7 +4,7 @@ import jakarta.annotation.security.RolesAllowed;
 import lombok.Data;
 import monokai.securitysystem.domain.UserEntity;
 import monokai.securitysystem.repository.UserRepository;
-import monokai.securitysystem.service.UserService;
+//import monokai.securitysystem.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,17 +19,17 @@ import java.net.URI;
 public class UserAdminController {
 
 
-    private final UserService userService;
+//    private final UserService userService;
     private final UserRepository userRepository;
 
 
-    public UserAdminController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
+    public UserAdminController( UserRepository userRepository) {
+//        this.userService = userService;
         this.userRepository = userRepository;
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findAll(){
         return ResponseEntity.ok(userRepository.findAll());
     }
@@ -37,8 +37,8 @@ public class UserAdminController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateUserRequest req) {
-        UserEntity u = userService.createUser(req.getUsername(), req.getPassword(), req.getEmail());
-        return ResponseEntity.created(URI.create("/api/users/" + u.getId())).build();
+//        UserEntity u = userService.createUser(req.getUsername(), req.getPassword(), req.getEmail());
+        return ResponseEntity.created(URI.create("/api/users/")).build();
     }
 
 
