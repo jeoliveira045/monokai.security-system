@@ -26,7 +26,13 @@ CONTENT=$(curl -s -X POST "http://localhost:8085/oauth2/token" \
   -d "grant_type=client_credentials" \
   -d "scope=openid" | jq -r '.access_token')
 #
-
+#CONTENT=$(curl -s -X POST "http://localhost:8085/oauth2/token" \
+#  -H "Content-Type: application/x-www-form-urlencoded" \
+#  -d "client_id=demo-client" \
+#  -d "username=jean.oliveira" \
+#  -d "password=123" \
+#  -d "grant_type=password" \
+#  -d "scope=openid" | jq -r '.access_token')
 #CONTENT=$(curl -s -X POST "http://localhost:8085/oauth2/token" \
 #  -H "Content-Type: application/x-www-form-urlencoded" \
 #  -d "client_id=demo-client" \
